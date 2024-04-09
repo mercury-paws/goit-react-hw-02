@@ -1,0 +1,8 @@
+.buttonBlock {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+.button {
+  border: solid 1px black;
+}
