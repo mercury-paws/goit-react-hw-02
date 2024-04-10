@@ -1,6 +1,7 @@
 import Description from "./Description/Description.jsx";
 import Options from "./Options/Options.jsx";
 import Feedback from "./Feedback/Feedback.jsx";
+import Notification from "./Notification/Notification.jsx";
 import { useState } from "react";
 
 export default function App() {
@@ -9,10 +10,10 @@ export default function App() {
     neutral: 0,
     bad: 0,
   });
-  const updateClickCount = (type, value) => {
+  const updateFeedback = (feedbackType) => {
     setValues((values) => ({
       ...values,
-      [type]: value,
+      [feedbackType]: values[feedbackType] + 1,
     }));
   };
 
@@ -24,15 +25,24 @@ export default function App() {
       bad: 0,
     }));
   };
-
+  const totalFeedback = values.good + values.neutral + values.bad;
+  const positiveFeedback = Math.round((values.good / totalFeedback) * 100);
   return (
     <>
       <Description />
       <Options
-        updateClickCount={updateClickCount}
+        updateFeedback={updateFeedback}
         resetClickCount={resetClickCount}
+        totalFeedback={totalFeedback}
       />
-      <Feedback values={values} />
+      {totalFeedback === 0 && <Notification />}
+      {totalFeedback > 0 && (
+        <Feedback
+          values={values}
+          totalFeedback={totalFeedback}
+          positiveFeedback={positiveFeedback}
+        />
+      )}
     </>
   );
 }

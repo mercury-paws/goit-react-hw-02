@@ -1,17 +1,38 @@
 import css from "./options.module.css";
-import { useState } from "react";
-import ClickCounter from "../ClickCounter/ClickCounter.jsx";
 
-export default function Options({ updateClickCount, resetClickCount }) {
+export default function Options({
+  updateFeedback,
+  resetClickCount,
+  totalFeedback,
+}) {
   return (
     <div className={css.buttonBlock}>
-      <ClickCounter text={"Good"} updateClickCount={updateClickCount} />
-      <ClickCounter text={"Neutral"} updateClickCount={updateClickCount} />
-      <ClickCounter text={"Bad"} updateClickCount={updateClickCount} />
-      <button onClick={resetClickCount} className={css.button} type="button">
-        Reset
+      <button
+        onClick={() => {
+          updateFeedback("good");
+        }}
+      >
+        Good
       </button>
-      {/* <ClickCounter text={"Reset"} resetClickCount={resetClickCount} /> */}
+      <button
+        onClick={() => {
+          updateFeedback("neutral");
+        }}
+      >
+        Neutral
+      </button>
+      <button
+        onClick={() => {
+          updateFeedback("bad");
+        }}
+      >
+        Bad
+      </button>
+      {totalFeedback > 0 && (
+        <button onClick={resetClickCount} className={css.button} type="button">
+          Reset
+        </button>
+      )}
     </div>
   );
 }
