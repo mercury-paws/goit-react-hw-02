@@ -2,20 +2,31 @@ import Description from "./Description/Description.jsx";
 import Options from "./Options/Options.jsx";
 import Feedback from "./Feedback/Feedback.jsx";
 import Notification from "./Notification/Notification.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function App() {
-  const [values, setValues] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
+  const [values, setValues] = useState(() => {
+    const savedValue = localStorage.getItem("feedback");
+    if (savedValue !== null) {
+      return JSON.parse(savedValue);
+    }
+    return {
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    };
   });
+
   const updateFeedback = (feedbackType) => {
     setValues((values) => ({
       ...values,
       [feedbackType]: values[feedbackType] + 1,
     }));
   };
+
+  useEffect(() => {
+    localStorage.setItem("feedback", JSON.stringify(values));
+  }, [values]);
 
   const resetClickCount = () => {
     setValues((values) => ({
